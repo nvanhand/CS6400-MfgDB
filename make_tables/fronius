@@ -1,0 +1,30 @@
+CREATE TABLE fronius (
+    traverse_speed NUMERIC(10, 5),                        -- Traverse Speed (inches per minute)
+    wire_feed_speed NUMERIC(10, 5),                       -- Wire Feed Speed (inches per minute)
+    ctwd NUMERIC(10, 5),                                  -- Contact Tip to Work Piece Distance (inches)
+    welding_mode VARCHAR(20),                             -- Welding Mode (string value)
+    wire_electrode VARCHAR(20),                           -- Wire Electrode (string value)
+    shielding_gas VARCHAR(20),                            -- Shielding Gas (string value)
+    shield_gas_flowrate NUMERIC(10, 5),                   -- Shield Gas Flowrate (cubic feet per hour)
+    interpass_temp_control BOOLEAN,                       -- Interpass Temperature Control (boolean)
+    interpass_temp NUMERIC(10, 5),                        -- Interpass Temperature (Celsius)
+    interpass_time_control BOOLEAN,                       -- Interpass Time Control (boolean)
+    interpass_time NUMERIC(10, 5),                        -- Interpass Time (seconds)
+    
+    -- Constraints to ensure Interpass Temp and Time cannot both be active
+    CHECK (
+        (interpass_temp_control = FALSE AND interpass_time_control = FALSE) OR 
+        (interpass_temp_control = TRUE AND interpass_time_control = FALSE) OR 
+        (interpass_temp_control = FALSE AND interpass_time_control = TRUE)
+    ),
+    
+    -- Interpass Temperature must be NULL if Interpass Temperature Control is false
+    CHECK (
+        interpass_temp_control = FALSE OR interpass_temp IS NOT NULL
+    ),
+
+    -- Interpass Time must be NULL if Interpass Time Control is false
+    CHECK (
+        interpass_time_control = FALSE OR interpass_time IS NOT NULL
+    )
+);

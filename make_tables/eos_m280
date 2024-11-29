@@ -1,0 +1,31 @@
+CREATE TABLE eos_m280 (
+        build_id SERIAL PRIMARY KEY,                         -- Build ID (auto-incremented integer)
+        build_nickname VARCHAR(50),                          -- Build Nickname 
+        date_printed TIMESTAMP,                              -- Date Printed (timestamp)
+        operator VARCHAR(50),                                -- Operator 
+        customer VARCHAR(100),                               -- Customer (varchar(100))
+        build_plate_type VARCHAR(20),                        -- Build Plate Type (varchar(10))
+        powder_lot VARCHAR(20),                              -- Powder ID (integer)
+        build_file_path VARCHAR(200),                        -- Build File Path (varchar(200))
+        parameter_set VARCHAR(50),                           -- 
+        successful BOOLEAN,                                  -- Successful (boolean)
+        total_part_volume NUMERIC(10,3),                     -- Total Part Volume (numeric(10,3) in mm^3)
+        part_height NUMERIC(6,3),                            -- Part Height (numeric(6,3) in mm)
+        est_print_time NUMERIC(6,3),                         -- Estimated Print Time (numeric(6,3) in hours)
+        hopper_start_level NUMERIC(6,3),                     -- Hopper Start Level (numeric(6,3) in mm)
+        hopper_end_level NUMERIC(6,3),                       -- Hopper End Level (numeric(6,3) in mm)
+        min_charge NUMERIC(5,2),                                      -- Minimum Charge (%)
+        max_charge NUMERIC(5,2),                                      -- Maximum Charge (%)
+        used_powder_height NUMERIC(6,3),                     -- Used Powder Height (numeric(6,3) in mm)
+        laser_hours NUMERIC(8,3),                            -- Laser Hours (numeric(8,3) in hours)
+        recoater_type VARCHAR(20),                           -- Recoater Type (brush, )
+        dosing_boost NUMERIC(4,2),                           -- Dosing boost 
+        gas_flow_voltage NUMERIC(5,2),                       -- Gas Flow Voltage (numeric(5,2))
+        build_shift_x NUMERIC(4,2),                          -- Build Shift X (numeric(4,2))
+        build_shift_y NUMERIC(4,2),                          -- Build Shift Y (numeric(4,2))
+        build_desc TEXT,                                     -- Build Description (text)
+        prebuild_notes TEXT,                                 -- Pre-build Notes (text)
+        postbuild_notes TEXT,                                -- Post-build Notes (text)
+        
+        FOREIGN KEY (powder_lot) REFERENCES powder_lots(powder_lot)
+    );

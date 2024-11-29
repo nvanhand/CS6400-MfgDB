@@ -1,0 +1,156 @@
+
+<StartScreen>:
+    name: "Home"
+    on_leave: root.read_screen()
+    MyBox:
+        id: content
+        BlockText:
+            text: 'Please verify today\'s date and identify the operator'
+        InputField:
+            label_text: 'Date'
+            field_text: root.date()
+        SpinnerSelect:
+            label_text: 'Operator'
+            options: ["Brooks", "Brian", "Ken", "Evan", "Sam"]
+        BlockText:
+        Navbar:
+            Navbutton:
+                dir: "right"
+                goto: "Maintenance"
+                text: "Log Maintenance"
+            Navbutton:
+                dir: "left"
+                goto: "ClickCam"
+                text: "QuickCamera"
+            Navbutton:
+                dir: "left"
+                goto: "Build"
+                text: "Build"
+                on_release: root.read_screen()
+
+
+
+<Maintenance>:
+    name: "Maintenance"
+    MyBox:
+        BlockText:
+            text: 'Record the date and details of maintenance.'
+        SpinnerSelect:
+            label_text: "Maintenance Type"
+            options: ["Cleaning", "Powder Change", "Filter Change", "Recoater Change"]
+        InputField:
+            label_text: 'Details'
+            multiline: True
+            height: 100
+        SpinnerSelect:
+            label_text: "Replacement Item"
+
+        Navbar:
+            Navbutton:
+                dir: "left"
+                goto: "Home"
+                text: "Home"
+
+            Button:
+                text: "Submit Maintenance"
+
+<BuildScreen>:
+    name: "Build"
+    MyBox:
+        id: content
+        orientation: 'vertical'
+        InputField:
+            label_text: 'Build ID'
+            field_text: 'B099'
+        InputField:
+            label_text: 'Build Nickname'
+        InputField:
+            label_text: 'Customer'
+        SpinnerSelect:
+            label_text: 'Build Plate Type'
+            options: ['Full', 'RBV', 'Large', 'Mini', 'Medium']
+
+        FileSelect:
+            label_text: 'Build Folder'
+        FileSelect:
+            label_text: 'Parameter File'
+        SpinnerSelect:
+            label_text: 'Material'
+            options: ['316L', 'A1000', 'AlSi10Mg']
+        InputField:
+            label_text: 'Build Description'
+            hint_text: "Provide a concise description of what the goals of the build are and how it will be used."
+            height: 60
+            multiline: True
+        BoxLayout:
+            orientation: "horizontal"
+            Label:
+                text: "Choose cameras"
+            ToggleButton:
+                text: "Camera 1"
+                id: cam1
+                size_hint: (1, 0.05)
+                state: "down"
+            ToggleButton:
+                text: "Camera 2"
+                size_hint: (1, 0.05)
+                id: cam2
+                state: "down"
+        Label:
+            size_hint: 1,1
+
+        Navbar:
+            Navbutton:
+                dir: "right"
+                goto: "Home"
+                text: "Home"
+            Button:
+                on_press: root.read_screen()
+            Navbutton:
+                dir: "left"
+                goto: "BuildCamera"
+                text: "Start Build"
+
+<ClickCam>:
+    name: "ClickCam"
+    MyBox:
+        id: content
+        BlockText:
+            text: "The following tool is used taking images at any time, regardless of build."
+            size_hint: (1, 0.1)
+        FileSelect:
+            id: filepath
+            label_text: "Save Path"
+        CameraWidget:
+            size_hint:(1,1)
+
+
+
+<CamScreen>:
+    name: "BuildCamera"
+    MyBox:
+        id: content
+        BlockText:
+            text: "Camera monitoring is now on"
+        BoxLayout:
+            orientation: 'horizontal'
+            Navbar:
+                Navbutton:
+                    dir: "right"
+                    goto: "Build"
+                    text: "Edit build details"
+                Navbutton:
+                    dir: "left"
+                    goto: "PostBuild"
+                    text: "Finish build"
+
+<PostBuild>:
+    name: "PostBuild"
+    MyBox:
+        id: content
+        SpinnerSelect:
+            label_text: 'Successful?'
+            options: ["Yes", "No"]
+        InputField:
+            label_text: "Finish Time"
+            field_text: root.date()

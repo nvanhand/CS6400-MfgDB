@@ -1,0 +1,19 @@
+CREATE TABLE cinncinati ( 
+build_id SERIAL PRIMARY KEY, 
+traverse_speed NUMERIC(10, 5), -- Traverse Speed in inches per minute 
+wire_feed_speed NUMERIC(10, 5), -- Wire Feed Speed in inches per minute 
+power_setpoint NUMERIC(10, 5), -- Power Setpoint in kilowatts
+pinch_trim NUMERIC(10, 5), -- Pinch / Trim (unitless) 
+ctwd NUMERIC(10, 5) , -- Contact Tip to Work Piece Distance in inches 
+welding_mode VARCHAR(20), -- Welding Mode (string) 
+wire_electrode VARCHAR(20), -- Wire Electrode (string) 
+shielding_gas VARCHAR(20), -- Shielding Gas (string) 
+shield_gas_flowrate NUMERIC(10, 5), -- Shield Gas Flowrate in cubic feet per hour 
+interpass_temperature_control BOOLEAN, -- Interpass Temperature Control (boolean)
+interpass_temperature NUMERIC(10, 5), -- Interpass Temperature in Celsius (nullable) 
+
+CHECK ( -- Ensuring that interpass_temperature is NULL if interpass_temperature_control is false 
+(interpass_temperature_control IS FALSE AND interpass_temperature IS NULL) 
+OR 
+(interpass_temperature_control IS TRUE AND interpass_temperature IS NOT NULL) ) 
+);
