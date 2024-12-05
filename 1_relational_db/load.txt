@@ -1,0 +1,19 @@
+-- Load data into the Sensors table
+.mode csv
+.separator ,
+.import 0_preprocessing/clean_data/sensors.csv Sensors
+
+-- Load data into the Powder table
+.mode csv
+.separator ,
+.import 0_preprocessing/clean_data/powder_lots.csv PowderLots
+
+-- Load data into the SensorData table
+.separator |
+.import 0_preprocessing/clean_data/SensorData.dat SensorData
+update SensorData set SensorSerial = null where SensorSerial = 'NULL';
+
+-- Load data into the Builds table
+.mode csv
+.separator ,
+.import 0_preprocessing/clean_data/clean_BuildDocumentation.csv Builds
