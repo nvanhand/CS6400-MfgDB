@@ -1,0 +1,23 @@
+import psycopg2 as pg
+import os
+
+connection_dict = {"host": "ampfdb.postgres.database.azure.com",
+                   "dbname": "machine_data", 
+                   "user": "waamuser",
+                   "password": "waampwd",
+                   "sslmode": "require",
+                   "connect_timeout": 10
+                   }
+
+# Construct connection string
+conn = pg.connect(**connection_dict)
+
+print("Connection established")
+
+cursor = conn.cursor()
+
+try: 
+    cursor.execute(query)
+    conn.commit()
+except:
+    conn.rollback()

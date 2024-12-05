@@ -1,0 +1,4 @@
+serial,name,model,manufacturer,resolution,depth
+1,cam1,PHX-200S-MC ,Lucid Vision,5472x3648,12
+2,cam2,PHX-032S-MC,Lucid Vision,2048x1536,12
+3,laser power,daq-power,NIST,0.0001,32

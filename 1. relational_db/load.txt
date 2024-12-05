@@ -1,0 +1,9 @@
+-- Load data into the Sensors table
+.separator |
+.import SensorData.dat SensorData
+update SensorData set CamID = null where CamID = 'NULL';
+
+-- Load data into the Builds table
+.mode csv
+.separator ,
+.import clean_BuildDocumentation.csv Builds

@@ -13,10 +13,4 @@ The EOS M280 is a commerical laser powder bed fusion printer. It is capable of c
 
 
 ## Contents
-
 This repository contains four sections 0. Data Preprocessing, 1. Relational DB, 2. Graph DB, and 3. GUI. To replicate the results given in this repository, the folders should be invoked in order.
-
-## Data Preprocessing 
-This folder contains all raw files as well as the scripts used to clean 
-
-## 

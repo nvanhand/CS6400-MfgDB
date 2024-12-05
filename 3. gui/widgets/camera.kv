@@ -1,0 +1,30 @@
+<CameraWidget>:
+    orientation: 'horizontal'
+    padding: 20
+    BoxLayout:
+        orientation: "vertical"
+        padding: 10
+        Button:
+            text: "Camera1"
+            size_hint: (1, None)
+            height: 50
+        Image:
+            id: image_1
+            source: f"localStore/Cam1/LunaRat.JPG"
+            size_hint: (1,1)
+        Label:
+            text: f"Last image saved to \n {image_1.source}"
+            size_hint: (0.8, 0.2)
+
+    BoxLayout:
+        orientation: "vertical"
+        Button:
+            text: "Camera2"
+            size_hint: (1, None)
+        Image:
+            id: image_2
+            source: "localStore/Cam2/IMG_2677.JPG"
+            size_hint: (1,1)
+        Label:
+            text: f"Last image saved to \n {image_2.source}"
+            size_hint: (0.8, 0.2)

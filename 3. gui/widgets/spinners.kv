@@ -1,0 +1,31 @@
+
+
+<SpinnerSelect>:
+    options: []
+    BoxLayout:
+        size_hint: (None,None)
+        height: rowheight
+        spacing: 0
+        width: min(root.width * labelprop, root.width - labelminwidth)
+        Spinner:
+            id: spinner
+            size_hint: (1, 1)
+            values: root.options
+            on_text: root.on_spinner_select(self.text)
+
+<MultiSelectOption@ToggleButton>:
+    size_hint: 1, None
+    height: rowheight
+
+<MultiSelectSpinner>:
+
+<MultiSpinner>:
+    BoxLayout:
+        id: boxy
+        size_hint: None, None
+        width: min(root.width * labelprop, root.width - labelminwidth)
+        height: rowheight
+
+        MultiSelectSpinner:
+            id: mss
+            values: root.options
