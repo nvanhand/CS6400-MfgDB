@@ -23,7 +23,6 @@
     id: 'content'
     size_hint: (1, 1)
 
-
 <LabelledBox>:
     label_text: ''
     orientation: 'horizontal'
@@ -133,6 +132,7 @@
 <Navbutton@Button>:
     text: root.text
     on_release:
+        
         app.root.current = root.goto
         app.root.transition.direction = root.dir
 

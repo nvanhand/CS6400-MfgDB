@@ -2,22 +2,18 @@ from kivyImports import *
 
 # Set the default font size globally
 LabelBase.font_size = '12sp'  # Set the default font size here
-default_path = 'Users/nikkivanhandel'
-assetdir = '/Users/nikkivanhandel/ampf/ampfApp/assets/'
-
-def finishBuild():
-    
+default_path = os.getcwd() # Set root 
+assetdir = os.path.join(default_path, "3_gui", "assets/")
+print(assetdir)
 
 def fmt_label(label):
     return label.title().replace(' ', '')
 
-
 class MyScreen(Screen):
     name = StringProperty('')
-    def __init__(self, session, session_name, **kwargs):
+    def __init__(self, session_name, **kwargs):
         super(MyScreen, self).__init__(**kwargs)
-        self.buffer = []
-        self.session = session
+        self.session = {}
         self.session_name = session_name
 
     def read_screen(self):
@@ -26,25 +22,39 @@ class MyScreen(Screen):
             if hasattr(child, 'get'):
                 label, value = child.get()
                 children[fmt_label(label)] = fmt_label(value)
-
         self.session[self.name] = children
+
+    def update_session(self):
+        session = App.get_running_app().session
+        children = {}
+        App.get_running_app().session[self.session_name] = self.session
 
     def date(self):
         return str(dt.datetime.now().strftime("%d/%m/%Y %H:%M"))
-
-    def update_session(self):
-        if len(self.data_queue) > 0:
-            with open(self.session_name, 'r') as file:
-                data = json.load(file)
-            data[self.name] = self.data_queue.pop(0)
-            with open(self.session_name, 'w') as file:
-                json.dump(data, file, indent=4)
 
     def change_screen(self, choose, dir):
         self.read_inputs()
         self.update_session()
         self.manager.current = choose
         self.manager.transition.direction = dir
+
+
+class FinishScreen(MyScreen):
+    def __init__(self, session_name, **kwargs):
+        super(MyScreen, self).__init__(**kwargs)
+        self.buffer = []
+        self.session = {}
+        self.session_name = session_name
+        self.update_session()
+       
+    def push_build():
+        pass
+
+    def finishBuild(self):
+        self.read_screen()
+        self.update_session()
+        print(App.get_running_app().session)
+        App.get_running_app().shutdown('')
 
 
 class LabelledBox(BoxLayout):
