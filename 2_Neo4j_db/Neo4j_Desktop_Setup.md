@@ -24,6 +24,7 @@
      - `clean_BuildDocumentation.csv`  
      - `powder_lots.csv`  
      - `eos_cam.json`
+   - The above files must have been cleaned through the preprocessing code.
 
 6. **Access the Neo4j Browser**  
    - Open the Neo4j Browser to interact with your database.
@@ -33,14 +34,14 @@
 ## Load Data into Database
 
 1. Open the `Create_All.cipher` file in a text editor.  
-2. Copy its contents and paste it into the Neo4j Browser query editor.  
+2. Copy its contents and paste it into the Neo4j Browser query editor.
 3. Execute the script to import data from `clean_BuildDocumentation.csv`, `powder_lots.csv`, and `eos_cam.json` into your database.
 
 ---
 
 ## Example Queries
 
-Below are some example queries to explore your data.
+Below are some example queries to explore the data.
 
 1. **Graph Customers with Image Nodes**  
    ```cypher
