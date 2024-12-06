@@ -15,6 +15,9 @@ Builder.load_file('widgets/widgets.kv')
 Builder.load_file('widgets/camera.kv')
 Builder.load_file(screenfile)
 class MyApp(App):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.session = {}
     def get_screens(self):
         with open('widgets/BuildScreen.kv', 'r') as f:
             kv_string = f.read()
@@ -22,22 +25,18 @@ class MyApp(App):
         return re.findall(r'<(.*?)>', kv_string)
     def build(self):
         screen_names = self.get_screens()
-        print(screen_names)
         Window.bind(on_request_close=self.on_request_close)
         self.assetdir = assetdir
         self.screenManager = ScreenManager()
         self.initJSON()
-        print(self.session)
         for screen in screen_names:
             screenname = getattr(sys.modules['BuildScreen'], screen)
-            print(screenname)
-            self.screenManager.add_widget(screenname(self.session, self.session_name))
+            self.screenManager.add_widget(screenname(screen))
 
         return self.screenManager
 
     def initJSON(self):
         self.session_start = dt.now().strftime("%Y-%m-%d_%H-%M")
-        self.session = {}
         self.session_name = f'.session/.session_{self.session_start}.json'
         with open(self.session_name, 'w') as json_file:
             json.dump({}, json_file)
@@ -61,6 +60,5 @@ class MyApp(App):
 
 
 if __name__ == '__main__':
-
     MyApp().run()
 
