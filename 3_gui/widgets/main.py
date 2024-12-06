@@ -31,7 +31,6 @@ class MyApp(App):
         self.initJSON()
         for screen in screen_names:
             screenname = getattr(sys.modules['BuildScreen'], screen)
-            print(screen)
             self.screenManager.add_widget(screenname(screen))
 
         return self.screenManager

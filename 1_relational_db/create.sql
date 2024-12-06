@@ -6,8 +6,8 @@ DROP TABLE IF exists PowderLots;
 CREATE TABLE PowderLots
 (
     PowderID INTEGER PRIMARY KEY,
-    Manufacturer VARCHAR(20), 
-    Material TEXT, 
+    Material VARCHAR(20), 
+    Manufacturer TEXT, 
     FirstUseDate TEXT
 );
 

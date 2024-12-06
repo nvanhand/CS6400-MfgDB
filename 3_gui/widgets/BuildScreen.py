@@ -11,7 +11,7 @@ class BuildScreen(MyScreen):
         self.cam1_on = self.ids.cam1 == 'down'
         self.cam2_on = self.ids.cam2 == 'down'
 
-class PostBuild(FinishScreen):
+class PostBuild(MyScreen):
     pass
 
 class CamScreen(MyScreen):

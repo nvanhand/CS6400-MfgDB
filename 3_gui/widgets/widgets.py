@@ -4,7 +4,6 @@ from kivyImports import *
 LabelBase.font_size = '12sp'  # Set the default font size here
 default_path = os.getcwd() # Set root 
 assetdir = os.path.join(default_path, "3_gui", "assets/")
-print(assetdir)
 
 def fmt_label(label):
     return label.title().replace(' ', '')
@@ -13,8 +12,8 @@ class MyScreen(Screen):
     name = StringProperty('')
     def __init__(self, session_name, **kwargs):
         super(MyScreen, self).__init__(**kwargs)
-        self.session = {}
         self.session_name = session_name
+        self.session = App.get_running_app().session
 
     def read_screen(self):
         children = {}
@@ -22,40 +21,34 @@ class MyScreen(Screen):
             if hasattr(child, 'get'):
                 label, value = child.get()
                 children[fmt_label(label)] = fmt_label(value)
-        self.session[self.name] = children
+        self.session.update(children)
 
     def update_session(self):
-        session = App.get_running_app().session
-        children = {}
-        App.get_running_app().session[self.session_name] = self.session
+        self.read_screen()
+        App.get_running_app().session.update(self.session)
 
     def date(self):
         return str(dt.datetime.now().strftime("%d/%m/%Y %H:%M"))
 
     def change_screen(self, choose, dir):
-        self.read_inputs()
+        self.read_screen()
         self.update_session()
         self.manager.current = choose
         self.manager.transition.direction = dir
 
+    def push_build(self):
+        row = decompose_outputs(self.session)
+        material = row[-1]
+        row[-1] = get_material(material)
+        q = f'INSERT INTO Builds Values {tuple(row)}'
+        execute_query(q)
 
-class FinishScreen(MyScreen):
-    def __init__(self, session_name, **kwargs):
-        super(MyScreen, self).__init__(**kwargs)
-        self.buffer = []
-        self.session = {}
-        self.session_name = session_name
-        self.update_session()
-       
-    def push_build():
-        pass
 
     def finishBuild(self):
         self.read_screen()
         self.update_session()
-        print(App.get_running_app().session)
+        self.push_build()
         App.get_running_app().shutdown('')
-
 
 class LabelledBox(BoxLayout):
     label_text = StringProperty('')
@@ -85,7 +78,7 @@ class FolderBtn(Button):
 
 class FileSelect(LabelledBox):
     assetdir = StringProperty()
-    col_name = StringProperty('')
+    label_text = StringProperty('')
     def __init__(self, **kwargs):
         super(FileSelect, self).__init__(**kwargs)
         self.assetdir = assetdir
@@ -95,7 +88,8 @@ class FileSelect(LabelledBox):
         self.ids.input_field.text = filechooser.choose_dir(title="File path",
                                                           path=default_path)[0]
     def get(self):
-        return self.col_name, self.ids.input_field.text
+
+        return self.label_text, self.ids.input_field.text
 
 class WindowPopup(Popup):
     title = StringProperty("")

@@ -14,6 +14,8 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 
+from write_to_db import *
+
 from kivy.uix.screenmanager import ScreenManager
 from kivy.core.window import Window
 
