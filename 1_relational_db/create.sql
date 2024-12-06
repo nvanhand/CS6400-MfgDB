@@ -15,7 +15,7 @@ CREATE TABLE Builds (
     BuildID VARCHAR(10) PRIMARY KEY,
     Nickname TEXT,
     Operator TEXT,
-    DatePrinted Timestamp,
+    DatePrinted TIMESTAMP,
     Customer TEXT,
     BuildPlateType TEXT,
     BuildPlateID TEXT,
