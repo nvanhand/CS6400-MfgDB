@@ -13,7 +13,7 @@ class SpinnerSelect(LabelledBox):
         return self.label_text, self.ids.input_id.text
 
 class MultiSelectSpinner(Button):
-    # https://stackoverflow.com/a/36655886
+    # Adapted from https://stackoverflow.com/a/36655886
     dropdown = ObjectProperty(None)
     values = ListProperty([])
     selected_values = ListProperty([])
