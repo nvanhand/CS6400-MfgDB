@@ -60,7 +60,7 @@ CREATE TABLE Sensors
 
 CREATE TABLE SensorData
 (
-    RecordID INTEGER PRIMARY KEY,
+    RecordID INTEGER PRIMARY KEY autoincrement,
     BuildID VARCHAR(10) NOT NULL,
     SensorSerial VARCHAR(10),
     Value Varchar(50),
