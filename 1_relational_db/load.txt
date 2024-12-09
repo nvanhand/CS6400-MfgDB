@@ -13,10 +13,6 @@
 .import 0_preprocessing/clean_data/SensorData.dat SensorData
 update SensorData set SensorSerial = null where SensorSerial = 'NULL';
 
--- Load DAQ into the SensorData table
-.separator ,
-.import 0_preprocessing/clean_data/daq.csv SensorData
-
 -- Load data into the Builds table
 .mode csv
 .separator ,
