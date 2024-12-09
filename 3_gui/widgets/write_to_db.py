@@ -67,7 +67,6 @@ def preprocess_outputs(bd):
     start = dt.strptime(bd['Date'], time_fmt)
     bd['PrintTime'] = (finish - start).seconds/60
     bd['Date'] = start.strftime("%Y/%m/%d")
-    print(bd['Date'])
     return bd
 
 def get_material(name):
