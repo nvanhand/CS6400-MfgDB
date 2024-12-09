@@ -37,10 +37,12 @@ class MyScreen(Screen):
         self.manager.transition.direction = dir
 
     def push_build(self):
-        row = decompose_outputs(self.session)
+        bd = preprocess_outputs(self.session)
+        row = decompose_outputs(bd)
         material = row[-1]
         row[-1] = get_material(material)
         q = f'INSERT INTO Builds Values {tuple(row)}'
+        print(q)
         execute_query(q)
 
 

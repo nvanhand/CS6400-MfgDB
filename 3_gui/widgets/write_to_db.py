@@ -1,5 +1,6 @@
 import sqlite3
 import os
+from datetime import datetime as dt
 from dateutil.parser import parse as dateparse
 
 
@@ -61,8 +62,13 @@ def decompose_outputs(session):
 
 def preprocess_outputs(bd):
     # Process build attributes to be inserted into df.  
-    bd['PrintTime'] = dateparse(bd['FinishTime']) - dateparse(bd)['Date']
-    bd['Date'] = dateparse(bd('Date')).date
+    time_fmt = "%m/%d/%Y%H:%M"
+    finish = dt.strptime(bd['FinishTime'], time_fmt)
+    start = dt.strptime(bd['Date'], time_fmt)
+    bd['PrintTime'] = (finish - start).seconds/60
+    bd['Date'] = start.strftime("%Y/%m/%d")
+    print(bd['Date'])
+    return bd
 
 def get_material(name):
     q = f'SELECT PowderID FROM PowderLots WHERE Material == "{name}"'
