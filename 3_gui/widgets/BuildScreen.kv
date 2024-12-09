@@ -26,7 +26,9 @@
                 dir: "left"
                 goto: "Build"
                 text: "Build"
-                on_release: root.read_screen()
+                on_release: 
+                    root.read_screen()
+                    root.update_session()
 
 
 
@@ -69,7 +71,6 @@
         SpinnerSelect:
             label_text: 'Build Plate Type'
             options: ['Full', 'RBV', 'Large', 'Mini', 'Medium']
-
         FileSelect:
             label_text: 'Build Folder'
         FileSelect:
@@ -77,6 +78,19 @@
         SpinnerSelect:
             label_text: 'Material'
             options: ['316L', 'A1000', 'AlSi10Mg']
+        InputField:
+            label_text: 'Hopper Level (mm)'
+        InputField:
+            label_text: 'Min Charge (%)'
+        InputField:
+            label_text: 'Max Charge (%)'
+        SpinnerSelect:
+            label_text: 'Recoater Type'
+            options: ['Brush', 'HSS', 'Steel', 'Hard']
+        InputField:
+            label_text: 'Dosing Boost (%)'
+        InputField:
+            label_text: 'Gas Flow Voltage'
         InputField:
             label_text: 'Build Description'
             hint_text: "Provide a concise description of what the goals of the build are and how it will be used."
@@ -105,11 +119,15 @@
                 goto: "Home"
                 text: "Home"
             Button:
-                on_press: root.read_screen()
+                on_press: 
+                    root.read_screen()
             Navbutton:
                 dir: "left"
                 goto: "BuildCamera"
                 text: "Start Build"
+                on_release: 
+                    root.read_screen()
+                    root.update_session()
 
 <ClickCam>:
     name: "ClickCam"
@@ -121,9 +139,14 @@
         FileSelect:
             id: filepath
             label_text: "Save Path"
-        CameraWidget:
-            size_hint:(1,1)
 
+        Navbar:
+            Navbutton:
+                dir: "left"
+                goto: "Home"
+                text: "Home"
+            Button:
+                text: "Take Image"
 
 
 <CamScreen>:
@@ -166,4 +189,5 @@
             
             Button:
                 text: "Finish"
+                on_press: root.finishBuild()
 

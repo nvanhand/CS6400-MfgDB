@@ -8,7 +8,7 @@
 .separator ,
 .import 0_preprocessing/clean_data/powder_lots.csv PowderLots
 
--- Load data into the SensorData table
+-- Load Camera Data into the SensorData table
 .separator |
 .import 0_preprocessing/clean_data/SensorData.dat SensorData
 update SensorData set SensorSerial = null where SensorSerial = 'NULL';

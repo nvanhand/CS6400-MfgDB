@@ -13,3 +13,10 @@ Ensure the eos-cam.json file, clean_BuildDocumentation.xlsx, and sensors.csv fil
     sqlite3 mfgdb < 1_relational_db/create.sql
     sqlite3 mfgdb < 1_relational_db/load.txt
 
+After the database is initialized and lodaed, the load_daq.py function can be ran as:
+
+    python3 1_relational_db/load_daq.py
+
+## Analysis
+
+Some example queries can be found 

@@ -1,3 +1,5 @@
 1,cam1,PHX-200S-MC,optical image,Lucid Vision,5472x3648,12
 2,cam2,PHX-032S-MC,optical image,Lucid Vision,2048x1536,12
 3,laser power,daq-power,voltage,NIST,0.0001,32
+4,laser x,daq-galvo-x,x position,NIST,0.0001,32
+5,laser y,daq-galvo-y,y position,NIST,0.0001,32
