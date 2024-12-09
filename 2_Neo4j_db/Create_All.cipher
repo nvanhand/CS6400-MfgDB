@@ -1,0 +1,108 @@
+//Create All
+MATCH (n)
+DETACH DELETE n;
+
+
+//1.1.1 Load CSV file into nodes
+LOAD CSV FROM 'file:///clean_BuildDocumentation.csv' AS row
+
+//1.1.2: Create nodes for Builds
+CREATE (b:Build {
+    BuildID: row[0],
+    Nickname: row[1],
+    Operator: row[2],
+    DatePrinted: row[3],
+    Customer: row[4],
+    BuildPlateType: row[5],
+    BuildPlateID: row[6],
+    FileLocation: row[7],
+    ParameterFileName: row[8],
+    Successful: row[9],
+    TotalPartVolume: row[10],
+    PrintTime: row[11],
+    BeginningHopperLevel: row[12],
+    EndHopperLevel: row[13],
+    MinCharge: row[14],
+    MaxCharge: row[15],
+    PartHeight: row[16],
+    PowderHeightUsed: row[17],
+    PowderHeightRatio: row[18],
+    BuildDescriptionPurpose: row[19],
+    NotesonBuild: row[20],
+    LaserHours: row[21],
+    EstimatedPowderNeeded: row[22],
+    PreBuildNotes: row[23],
+    PostBuildNotes: row[24],
+    RecoaterType: row[25],
+    RecyclingState: row[26],
+    DosingBoost: row[27],
+    GasFlowVoltage: row[28],
+    BuildShiftX: row[29],
+    BuildShiftY: row[30],
+    PowderID: row[31]
+});
+
+// Step 1.2.1: Load Powder data into nodes
+LOAD CSV FROM 'file:///powder_lots.csv' AS row
+CREATE (p:Powder {
+    PowderID: row[0],       
+    PowderName: row[1],               
+    TypeName: row[2],              
+    DateCreated: row[3]
+});
+
+// Step 1.2.2: Link Build nodes to Powder nodes based on PowderID
+MATCH (b:Build)
+OPTIONAL MATCH (p:Powder {PowderID: b.PowderID})
+WHERE p IS NOT NULL
+CREATE (b)-[:USES]->(p);
+
+//2. Image files List Nodes
+CALL apoc.load.json("file:///eos_cam.json") YIELD value
+WITH value
+UNWIND keys(value) AS buildID
+WITH buildID, value[buildID] AS files
+// Transform buildID using only substring operations
+WITH
+    CASE
+        // If the third character (index 2) is '_', add two '0's after 'B' and take the first character after 'B'
+        WHEN substring(buildID, 2, 1) = '_' THEN
+            'B' + '00' + substring(buildID, 1, 1)
+        
+        // Else if the fourth character (index 3) is '_', add one '0' after 'B' and take the first two characters after 'B'
+        WHEN substring(buildID, 3, 1) = '_' THEN
+            'B' + '0' + substring(buildID, 1, 2)
+        
+        // Else, retain the first four characters of buildID
+        ELSE
+            substring(buildID, 0, 4)
+    END AS newBuildID,
+    files
+MERGE (fileNode:FilesNode {newBuildID: newBuildID}) // Updated label to FilesNode
+SET fileNode.files = files;
+
+// Match and link FilesNode to Build
+MATCH (fileNode:FilesNode)
+MATCH (build:Build {BuildID: fileNode.newBuildID})
+MERGE (fileNode)-[:LINKED_TO]->(build);
+
+
+//3.  Customer Type Nodes
+MATCH (b:Build)
+WHERE b.Customer IS NOT NULL
+MERGE (c:Customer {name: b.Customer})
+MERGE (c)-[:Ordered]->(b);
+
+
+//4, Successful Type Nodes
+MATCH (b:Build)
+WHERE b.Successful IS NOT NULL
+MERGE (S:Successful {type: b.Successful})
+MERGE (S)-[:SuccessStatus]->(b);
+
+
+//5, BuildPlate Type Nodes
+MATCH (b:Build)
+WHERE b.BuildPlateType IS NOT NULL
+MERGE (T:BuildPlateType {type: b.BuildPlateType})
+MERGE (T)-[:UsesBuildPlate]->(b);
