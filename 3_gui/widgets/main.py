@@ -3,7 +3,6 @@ from BuildScreen import *
 from kivyImports import *
 from widgets import *
 from datetime import datetime as dt
-from camera import *
 
 homedir = os.path.join(os.getcwd(), '3_gui')
 os.chdir(homedir)
@@ -12,7 +11,6 @@ localStorage = os.path.join(homedir, 'imageStore')
 
 screenfile =  'widgets/BuildScreen.kv'
 Builder.load_file('widgets/widgets.kv')
-Builder.load_file('widgets/camera.kv')
 Builder.load_file(screenfile)
 class MyApp(App):
     def __init__(self, **kwargs):

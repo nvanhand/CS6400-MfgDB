@@ -51,8 +51,8 @@ CREATE TABLE Sensors
 (
     Serial INTEGER PRIMARY KEY,
     Name VARCHAR(20), 
-    DataKind TEXT, 
     Model TEXT,
+    DataKind TEXT, 
     Manufacturer TEXT,
     Resolution VARCHAR(15),
     Depth INTEGER
@@ -60,9 +60,10 @@ CREATE TABLE Sensors
 
 CREATE TABLE SensorData
 (
-    RecordID INTEGER PRIMARY KEY,
+    RecordID INTEGER PRIMARY KEY autoincrement,
     BuildID VARCHAR(10) NOT NULL,
     SensorSerial VARCHAR(10),
+    Value Varchar(50),
     Date DATE NOT NULL,
     Time TIME NOT NULL,
     FOREIGN KEY (BuildID) REFERENCES Builds(BuildID)

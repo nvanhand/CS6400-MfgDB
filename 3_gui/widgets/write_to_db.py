@@ -1,5 +1,7 @@
 import sqlite3
 import os
+from dateutil.parser import parse as dateparse
+
 
 # Table headers
 headers = ['BuildID', 'Nickname', 'Operator', 'DatePrinted', 'Customer',
@@ -21,9 +23,9 @@ mapping = {'Operator': 'Operator', 'DatePrinted': 'Date',
         'Customer': 'Customer',
         'Nickname': 'BuildNickname',
         'BuildID': 'BuildId',
-        'PrintTime': 'FinishTime',
         'Successful': 'Successful?'
     }
+    
 
 def execute_query(q, read=False):
     dbf = os.path.join(os.path.dirname(os.getcwd()), "mfgdb")
@@ -51,9 +53,16 @@ def decompose_outputs(session):
     for field in headers:
         if field in mapping.keys():
             row.append(session[mapping[field]])
+        elif field in session.keys():
+            row.append(session[field])
         else:
             row.append('')
     return row
+
+def preprocess_outputs(bd):
+    # Process build attributes to be inserted into df.  
+    bd['PrintTime'] = dateparse(bd['FinishTime']) - dateparse(bd)['Date']
+    bd['Date'] = dateparse(bd('Date')).date
 
 def get_material(name):
     q = f'SELECT PowderID FROM PowderLots WHERE Material == "{name}"'
